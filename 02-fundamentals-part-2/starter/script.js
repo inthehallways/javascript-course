@@ -110,181 +110,444 @@
 
 ////////////////////////////////////
 // arrays - creation and access
-console.log("=== ARRAYS ===");
+// console.log("=== ARRAYS ===");
 
-// array creation
-const friends = ["Onew", "Jonghyun", "Key", "Taemin"];
-console.log(friends);
+// // array creation
+// const friends = ["Onew", "Jonghyun", "Key", "Taemin"];
+// console.log(friends);
 
-// different data types in same array
-const mixed = ["Minho", 34, true, friends];
-console.log(mixed);
+// // different data types in same array
+// const mixed = ["Minho", 34, true, friends];
+// console.log(mixed);
 
-// alternative way (but literal notation is preferred)
-const years = new Array(1991, 1984, 2007, 2020);
-console.log(years);
+// // alternative way (but literal notation is preferred)
+// const years = new Array(1991, 1984, 2007, 2020);
+// console.log(years);
 
-// array indexing starts at 0
-console.log(friends[0]);
-console.log(friends[1]);
-console.log(friends[2]);
+// // array indexing starts at 0
+// console.log(friends[0]);
+// console.log(friends[1]);
+// console.log(friends[2]);
 
-// array length property
-console.log(friends.length);
+// // array length property
+// console.log(friends.length);
 
-// get the last element
-console.log(friends[friends.length - 1]);
+// // get the last element
+// console.log(friends[friends.length - 1]);
 
-// changing array elements
-friends[1] = "Kai";
-console.log(friends);
+// // changing array elements
+// friends[1] = "Kai";
+// console.log(friends);
 
-// arrays can contain expressions and function calls
-const firstName = "Minho";
-const minho = [firstName, "Choi", 2025 - 1991];
-console.log(minho);
+// // arrays can contain expressions and function calls
+// const firstName = "Minho";
+// const minho = [firstName, "Choi", 2025 - 1991];
+// console.log(minho);
 
-// using our calcAge function from Hour 1
-const calcAge = function(birthYear) {
-    return 2025 - birthYear;
-};
+// // using our calcAge function from Hour 1
+// const calcAge = function(birthYear) {
+//     return 2025 - birthYear;
+// };
 
-const ages = [calcAge(1991), calcAge(1988), calcAge(2005)];
-console.log(ages);
+// const ages = [calcAge(1991), calcAge(1988), calcAge(2005)];
+// console.log(ages);
+
+// ////////////////////////////////////
+// // array methods - adding elements
+
+// const newLength = friends.push("Kai");
+// console.log(friends);
+// console.log(newLength);
+
+// // unshift - add to beginning
+// friends.unshift("Changmin");
+// console.log(friends);
+
+// // pop - remove from end
+// const popped = friends.pop();
+// console.log(popped);
+// console.log(friends);
+
+// // shift - remove from beginning
+// const shifted = friends.shift();
+// console.log(shifted);
+// console.log(friends);
+
+// // indexof - find position of element
+// console.log(friends.indexOf("Onew"));
+// console.log(friends.indexOf("Bob")); // -1 (not found)
+
+// // includes - check if element exists
+// console.log(friends.includes("Key"));
+// console.log(friends.includes("Bob"));
+
+// ////////////////////////////////////
+// // array iteration - loops
+
+// // traditional for loop
+// for (let i = 0; i < friends.length; i++) {
+//     console.log(friends[i]);
+// }
+
+// // for loop with processing
+// for (let i = 0; i < years.length; i++) {
+//     ages.push(2025 - years[i]);
+// }
+// console.log(ages);
+
+// // for each method - modern approach
+// friends.forEach(function (friend, index) {
+//     console.log(`${index}: ${friend}`);
+// });
+
+// // arrow function version (even cleaaner)
+// friends.forEach((friend, index) => {
+//     console.log(`Friend ${index + 1}: ${friend}`);
+// });
+
+// // real-world example
+// const grades2 = [85, 92, 78, 96, 88, 74];
+// let total = 0;
+
+// // calculate average grade
+// for (let i = 0; i < grades2.length; i++) {
+//    total += grades2[i];
+// };
+// const average2 = total / grades2.length;
+// console.log(`Average grade: ${average2.toFixed(2)}`);
+
+// // count passing students (grade >= 70)
+// let passedCount2 = 0;
+// grades2.forEach((grade2) => {
+//     if (grade2 >= 70) passedCount2++;
+// });
+// console.log(`${passedCount2} out of ${grades2.length} students passed.`);
+
+// ////////////////////////////////////
+// // coding challenge #2 - student grade manager
+
+// const grades = [78, 85, 92, 67, 88, 95, 73, 82];
+
+// // function to calculate average
+// function calculateAverage(grades) {
+//     let total = 0;
+
+//     for (let i = 0; i < grades.length; i++) {
+//         total += grades[i];
+//     };
+
+//     return total / grades.length;
+// };
+
+// // function to find highest grade
+// function findHighestGrade(grades) {
+//     let highestGrade = grades[0];
+
+//     for (let i = 1; i < grades.length; i++) {
+//         if (grades[i] > highestGrade) {
+//             highestGrade = grades [i];
+//         }
+//     };
+
+//     return highestGrade;
+// }
+
+// // function to find lowest grade
+// function findLowestGrade(grades) {
+//     let lowestGrade = grades[0];
+
+//     for (let i = 1; i < grades.length; i++) {
+//         if (grades[i] < lowestGrade) {
+//             lowestGrade = grades [i];
+//         }
+//     };
+
+//     return lowestGrade;
+// }
+
+// // function to count passing students
+// function countPassing(grades, passingGrade) {
+//     let count = 0;
+
+//     grades.forEach((grade) => {
+//         if (grade >= passingGrade) {
+//             count++;
+//         }
+//     });
+
+//     return count;
+// }
+
+// const aveGrade = calculateAverage(grades);
+// const hGrade = findHighestGrade(grades);
+// const lGrade = findLowestGrade(grades);
+// const passing = countPassing(grades, 70);
+
+// console.log("=== GRADE REPORT ===");
+// console.log(`Average: ${aveGrade.toFixed(2)}`);
+// console.log(`Highest: ${hGrade}`);
+// console.log(`Lowest: ${lGrade}`);
+// console.log(`Passing students: ${passing} out of ${grades.length}`);
 
 ////////////////////////////////////
-// array methods - adding elements
 
-const newLength = friends.push("Kai");
-console.log(friends);
-console.log(newLength);
-
-// unshift - add to beginning
-friends.unshift("Changmin");
-console.log(friends);
-
-// pop - remove from end
-const popped = friends.pop();
-console.log(popped);
-console.log(friends);
-
-// shift - remove from beginning
-const shifted = friends.shift();
-console.log(shifted);
-console.log(friends);
-
-// indexof - find position of element
-console.log(friends.indexOf("Onew"));
-console.log(friends.indexOf("Bob")); // -1 (not found)
-
-// includes - check if element exists
-console.log(friends.includes("Key"));
-console.log(friends.includes("Bob"));
+// JavaScript Fundamentals Part 2 - Hour 3
 
 ////////////////////////////////////
-// array iteration - loops
+// the array problem
 
-// traditional for loop
-for (let i = 0; i < friends.length; i++) {
-    console.log(friends[i]);
-}
+const minhoArray = [
+    "Minho",
+    "Choi",
+    2025 - 1991,
+    "singer",
+    ["Onew", "Jonghyun", "Key", "Taemin"],
+];
 
-// for loop with processing
-for (let i = 0; i < years.length; i++) {
-    ages.push(2025 - years[i]);
-}
-console.log(ages);
+console.log(minhoArray[0]);
+console.log(minhoArray[1]);
+console.log(minhoArray[2]);
 
-// for each method - modern approach
-friends.forEach(function (friend, index) {
-    console.log(`${index}: ${friend}`);
-});
-
-// arrow function version (even cleaaner)
-friends.forEach((friend, index) => {
-    console.log(`Friend ${index + 1}: ${friend}`);
-});
-
-// real-world example
-const grades2 = [85, 92, 78, 96, 88, 74];
-let total = 0;
-
-// calculate average grade
-for (let i = 0; i < grades2.length; i++) {
-   total += grades2[i];
-};
-const average2 = total / grades2.length;
-console.log(`Average grade: ${average2.toFixed(2)}`);
-
-// count passing students (grade >= 70)
-let passedCount2 = 0;
-grades2.forEach((grade2) => {
-    if (grade2 >= 70) passedCount2++;
-});
-console.log(`${passedCount2} out of ${grades2.length} students passed.`);
+// ^ the problem with this approach is it's difficult to remember because there are no descriptive names for the data
 
 ////////////////////////////////////
-// coding challenge #2 - student grade manager
+// objects - creation with object literal syntax
+console.log("=== OBJECTS ===");
 
-const grades = [78, 85, 92, 67, 88, 95, 73, 82];
+// object literal syntax - curly braces create objects
+const minhoObject = {
+    firstName: "Minho",
+    lastName: "Choi",
+    age: 2025 - 1991,
+    job: "singer",
+    friends: ["Onew", "Jonghyun", "Key", "Taemin"],
+};
+console.log(minhoObject);
 
-// function to calculate average
-function calculateAverage(grades) {
-    let total = 0;
+// property access methods
 
-    for (let i = 0; i < grades.length; i++) {
-        total += grades[i];
-    };
+// dot notation - clean and readable and most common
+console.log(minhoObject.firstName);
+console.log(minhoObject.lastName);
+console.log(minhoObject.age);
 
-    return total / grades.length;
+// bracket notation - uses strings and more flexible
+console.log(minhoObject["firstName"]);
+console.log(minhoObject["job"]);
+console.log(minhoObject["friends"]);
+
+// advantage of bracket notation - can compute property names
+const nameKey = "Name";
+console.log(minhoObject["first" + nameKey]);
+console.log(minhoObject["last" + nameKey]);
+
+// modifying existing properties
+minhoObject.job = "actor";
+minhoObject["age"] = 33;
+console.log(minhoObject);
+
+// adding new properties
+minhoObject.location = "South Korea";
+minhoObject["twitter"] = "choiminho_1209";
+minhoObject.hasDriverLicense = true;
+console.log(minhoObject);
+
+// when to use bracket notation
+const property = "job";
+console.log(minhoObject[property]);
+
+// 1. property name is a variable
+// 2. property name has spaces or special characters
+// 3. property name is computed/dynamic
+// otherwise, use dot notation
+
+// object vs arrays decision making
+
+// arrays
+const listOfYears = [1991, 1988, 2005, 2025];
+const shoppingList = ["takoyaki", "waffles", "milktea", "bread"];
+const testScores = [85, 92, 78, 96];
+
+// objects
+const person = {
+    name: "Minho",
+    age: 34,
+    occupation: "singer",
+}
+
+const car = {
+    brand: "Mitsubishi",
+    model: "Mirage",
+    year: 2020,
+    color: "silver"
 };
 
-// function to find highest grade
-function findHighestGrade(grades) {
-    let highestGrade = grades[0];
+// objects can contain arrays, arrays can contain objects
+const student = {
+    name: "Seungyeon",
+    grades: [85, 92, 78],
+    address: {
+        street: "205 Gangnam St.",
+        city: "Seoul",
+    },
+};
+console.log(student.grades[0]);
+console.log(student.address.city);
 
-    for (let i = 1; i < grades.length; i++) {
-        if (grades[i] > highestGrade) {
-            highestGrade = grades [i];
-        }
-    };
+////////////////////////////////////
+// object methods
 
-    return highestGrade;
-}
+const minho = {
+    firstName: "Minho",
+    lastName: "Choi",
+    birthYear: 1991,
+    job: "singer",
+    friends: ["Onew", "Jonghyun", "Key", "Taemin"],
+    hasDriverLicense: true,
 
-// function to find lowest grade
-function findLowestGrade(grades) {
-    let lowestGrade = grades[0];
+// method - function iside object
+    calcAge: function(birthYear) {
+        return 2025 - birthYear;
+    },
+};
 
-    for (let i = 1; i < grades.length; i++) {
-        if (grades[i] < lowestGrade) {
-            lowestGrade = grades [i];
-        }
-    };
+console.log(minho.calcAge(1991));
+console.log(minho.calcAge(minho.birthYear));
 
-    return lowestGrade;
-}
+// this keyword
+const minhoImproved = {
+    firstName: "Minho",
+    lastName: "Choi",
+    birthYear: 1991,
+    job: "singer",
+    friends: ["Onew", "Jonghyun", "Key", "Taemin"],
+    hasDriverLicense: true,
 
-// function to count passing students
-function countPassing(grades, passingGrade) {
-    let count = 0;
+    calcAge: function() {
+        console.log(this);
+        return 2025 - this.birthYear;
+    },
+};
 
-    grades.forEach((grade) => {
-        if (grade >= passingGrade) {
-            count++;
-        }
-    });
+console.log(minhoImproved.calcAge());
 
-    return count;
-}
+// advanced storing calculated values in objects
+const minhoAdvanced = {
+    firstName: "Minho",
+    lastName: "Choi",
+    birthYear: 1991,
+    job: "singer",
+    friends: ["Onew", "Jonghyun", "Key", "Taemin"],
+    hasDriverLicense: true,
 
-const aveGrade = calculateAverage(grades);
-const hGrade = findHighestGrade(grades);
-const lGrade = findLowestGrade(grades);
-const passing = countPassing(grades, 70);
+    calcAge: function() {
+        this.age = 2025 - this.birthYear;
+        return this.age;
+    },
 
-console.log("=== GRADE REPORT ===");
-console.log(`Average: ${aveGrade.toFixed(2)}`);
-console.log(`Highest: ${hGrade}`);
-console.log(`Lowest: ${lGrade}`);
-console.log(`Passing students: ${passing} out of ${grades.length}`);
+    getSummary: function() {
+        return `${this.firstName} is a ${this.calcAge()}-year old
+    ${this.job}, and he has ${this.hasDriverLicense ? "a" : "no"} driver's license.`;
+    },
+};
+
+console.log(minhoAdvanced.calcAge());
+console.log(minhoAdvanced.age);
+console.log(minhoAdvanced.getSummary());
+
+// complex object with multiple methods (show real world pattern)
+const bankAccount = {
+    owner: "Seungyeon Han",
+    movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+    interestRate: 1.2,
+    pin: 1111,
+
+    // method to calculate balance
+    calcBalance: function() {
+    this.balance = this.movements.reduce((acc, mov) => acc + mov, 0);
+    return this.balance;
+    }, 
+
+    // method to add movement
+    deposit: function(amount) {
+    this.movements.push(amount);
+    this.calcBalance();
+    },
+
+    withdraw: function(amount) {
+    this.movements.push(-amount);
+    this.calcBalance();
+    },
+
+    // method for account summary
+    getStatement: function() {
+        return `${this.owner}'s account balance: ${this.calcBalance()}`;
+    },
+};
+
+console.log(bankAccount.getStatement());
+bankAccount.deposit(500);
+console.log(bankAccount.getStatement());
+
+////////////////////////////////////
+// coding challenge #3 - user profile system
+
+const user = {
+    firstName: "Seungyeon",
+    lastName: "Han",
+    birthYear: 1988,
+    location: "South Korea",
+    interests: ["dogs", "singing", "photography"],
+    friends: [
+        {name: "Gyuri", status: "active"},
+        {name: "Hara", status: "inactive"},
+        {name: "Jiyoung", status: "active"},
+        {name: "Nicole", status: "active"},
+    ],
+    isActive: true,
+
+    // calculate age method
+    calcAge: function () {
+        this.age = new Date().getFullYear() - this.birthYear;
+        return this.age;
+    },
+
+    // add friend method
+    addFriend: function (name, status = "active") {
+        this.friends.push({name, status: status});
+        return this.friends.length;
+    },
+
+    // get active friends count
+    getActiveFriends: function () {
+        const activeFriends = this.friends.filter(friend => friend.status === "active").length;
+        return activeFriends;
+    },
+
+    // toggle active status
+    toggleStatus: function () {
+        this.isActive = !this.isActive;
+        return this.isActive;
+    },
+
+    // generate profile summary
+    getSummary: function () {
+        const age = this.calcAge();
+        const activeFriends = this.getActiveFriends();
+        const status = this.isActive ? "active" : "away";
+
+        return `${this.firstName} ${this.lastName} (${age}) from ${this.location}
+        Currently ${status}
+        ${activeFriends} active friends out of ${this.friends.length} total
+        Interests: ${this.interests.join(", ")}
+        fateflysy | 한승연 Vlog | INFJ`;
+
+    }
+};
+
+// test your user profile system
+console.log(user.getSummary());
+user.addFriend("Youngji", "active");
+user.toggleStatus();
+console.log(`\nAfter updates:`);
+console.log(user.getSummary());
