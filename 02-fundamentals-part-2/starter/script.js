@@ -294,260 +294,382 @@
 // JavaScript Fundamentals Part 2 - Hour 3
 
 ////////////////////////////////////
-// the array problem
+// // the array problem
 
-const minhoArray = [
-    "Minho",
-    "Choi",
-    2025 - 1991,
-    "singer",
-    ["Onew", "Jonghyun", "Key", "Taemin"],
-];
+// const minhoArray = [
+//     "Minho",
+//     "Choi",
+//     2025 - 1991,
+//     "singer",
+//     ["Onew", "Jonghyun", "Key", "Taemin"],
+// ];
 
-console.log(minhoArray[0]);
-console.log(minhoArray[1]);
-console.log(minhoArray[2]);
+// console.log(minhoArray[0]);
+// console.log(minhoArray[1]);
+// console.log(minhoArray[2]);
 
-// ^ the problem with this approach is it's difficult to remember because there are no descriptive names for the data
+// // ^ the problem with this approach is it's difficult to remember because there are no descriptive names for the data
+
+// ////////////////////////////////////
+// // objects - creation with object literal syntax
+// console.log("=== OBJECTS ===");
+
+// // object literal syntax - curly braces create objects
+// const minhoObject = {
+//     firstName: "Minho",
+//     lastName: "Choi",
+//     age: 2025 - 1991,
+//     job: "singer",
+//     friends: ["Onew", "Jonghyun", "Key", "Taemin"],
+// };
+// console.log(minhoObject);
+
+// // property access methods
+
+// // dot notation - clean and readable and most common
+// console.log(minhoObject.firstName);
+// console.log(minhoObject.lastName);
+// console.log(minhoObject.age);
+
+// // bracket notation - uses strings and more flexible
+// console.log(minhoObject["firstName"]);
+// console.log(minhoObject["job"]);
+// console.log(minhoObject["friends"]);
+
+// // advantage of bracket notation - can compute property names
+// const nameKey = "Name";
+// console.log(minhoObject["first" + nameKey]);
+// console.log(minhoObject["last" + nameKey]);
+
+// // modifying existing properties
+// minhoObject.job = "actor";
+// minhoObject["age"] = 33;
+// console.log(minhoObject);
+
+// // adding new properties
+// minhoObject.location = "South Korea";
+// minhoObject["twitter"] = "choiminho_1209";
+// minhoObject.hasDriverLicense = true;
+// console.log(minhoObject);
+
+// // when to use bracket notation
+// const property = "job";
+// console.log(minhoObject[property]);
+
+// // 1. property name is a variable
+// // 2. property name has spaces or special characters
+// // 3. property name is computed/dynamic
+// // otherwise, use dot notation
+
+// // object vs arrays decision making
+
+// // arrays
+// const listOfYears = [1991, 1988, 2005, 2025];
+// const shoppingList = ["takoyaki", "waffles", "milktea", "bread"];
+// const testScores = [85, 92, 78, 96];
+
+// // objects
+// const person = {
+//     name: "Minho",
+//     age: 34,
+//     occupation: "singer",
+// }
+
+// const car = {
+//     brand: "Mitsubishi",
+//     model: "Mirage",
+//     year: 2020,
+//     color: "silver"
+// };
+
+// // objects can contain arrays, arrays can contain objects
+// const student = {
+//     name: "Seungyeon",
+//     grades: [85, 92, 78],
+//     address: {
+//         street: "205 Gangnam St.",
+//         city: "Seoul",
+//     },
+// };
+// console.log(student.grades[0]);
+// console.log(student.address.city);
+
+// ////////////////////////////////////
+// // object methods
+
+// const minho = {
+//     firstName: "Minho",
+//     lastName: "Choi",
+//     birthYear: 1991,
+//     job: "singer",
+//     friends: ["Onew", "Jonghyun", "Key", "Taemin"],
+//     hasDriverLicense: true,
+
+// // method - function iside object
+//     calcAge: function(birthYear) {
+//         return 2025 - birthYear;
+//     },
+// };
+
+// console.log(minho.calcAge(1991));
+// console.log(minho.calcAge(minho.birthYear));
+
+// // this keyword
+// const minhoImproved = {
+//     firstName: "Minho",
+//     lastName: "Choi",
+//     birthYear: 1991,
+//     job: "singer",
+//     friends: ["Onew", "Jonghyun", "Key", "Taemin"],
+//     hasDriverLicense: true,
+
+//     calcAge: function() {
+//         console.log(this);
+//         return 2025 - this.birthYear;
+//     },
+// };
+
+// console.log(minhoImproved.calcAge());
+
+// // advanced storing calculated values in objects
+// const minhoAdvanced = {
+//     firstName: "Minho",
+//     lastName: "Choi",
+//     birthYear: 1991,
+//     job: "singer",
+//     friends: ["Onew", "Jonghyun", "Key", "Taemin"],
+//     hasDriverLicense: true,
+
+//     calcAge: function() {
+//         this.age = 2025 - this.birthYear;
+//         return this.age;
+//     },
+
+//     getSummary: function() {
+//         return `${this.firstName} is a ${this.calcAge()}-year old
+//     ${this.job}, and he has ${this.hasDriverLicense ? "a" : "no"} driver's license.`;
+//     },
+// };
+
+// console.log(minhoAdvanced.calcAge());
+// console.log(minhoAdvanced.age);
+// console.log(minhoAdvanced.getSummary());
+
+// // complex object with multiple methods (show real world pattern)
+// const bankAccount = {
+//     owner: "Seungyeon Han",
+//     movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+//     interestRate: 1.2,
+//     pin: 1111,
+
+//     // method to calculate balance
+//     calcBalance: function() {
+//     this.balance = this.movements.reduce((acc, mov) => acc + mov, 0);
+//     return this.balance;
+//     }, 
+
+//     // method to add movement
+//     deposit: function(amount) {
+//     this.movements.push(amount);
+//     this.calcBalance();
+//     },
+
+//     withdraw: function(amount) {
+//     this.movements.push(-amount);
+//     this.calcBalance();
+//     },
+
+//     // method for account summary
+//     getStatement: function() {
+//         return `${this.owner}'s account balance: ${this.calcBalance()}`;
+//     },
+// };
+
+// console.log(bankAccount.getStatement());
+// bankAccount.deposit(500);
+// console.log(bankAccount.getStatement());
+
+// ////////////////////////////////////
+// // coding challenge #3 - user profile system
+
+// const user = {
+//     firstName: "Seungyeon",
+//     lastName: "Han",
+//     birthYear: 1988,
+//     location: "South Korea",
+//     interests: ["dogs", "singing", "photography"],
+//     friends: [
+//         {name: "Gyuri", status: "active"},
+//         {name: "Hara", status: "inactive"},
+//         {name: "Jiyoung", status: "active"},
+//         {name: "Nicole", status: "active"},
+//     ],
+//     isActive: true,
+
+//     // calculate age method
+//     calcAge: function () {
+//         this.age = new Date().getFullYear() - this.birthYear;
+//         return this.age;
+//     },
+
+//     // add friend method
+//     addFriend: function (name, status = "active") {
+//         this.friends.push({name, status: status});
+//         return this.friends.length;
+//     },
+
+//     // get active friends count
+//     getActiveFriends: function () {
+//         const activeFriends = this.friends.filter(friend => friend.status === "active").length;
+//         return activeFriends;
+//     },
+
+//     // toggle active status
+//     toggleStatus: function () {
+//         this.isActive = !this.isActive;
+//         return this.isActive;
+//     },
+
+//     // generate profile summary
+//     getSummary: function () {
+//         const age = this.calcAge();
+//         const activeFriends = this.getActiveFriends();
+//         const status = this.isActive ? "active" : "away";
+
+//         return `${this.firstName} ${this.lastName} (${age}) from ${this.location}
+//         Currently ${status}
+//         ${activeFriends} active friends out of ${this.friends.length} total
+//         Interests: ${this.interests.join(", ")}
+//         fateflysy | 한승연 Vlog | INFJ`;
+
+//     }
+// };
+
+// // test your user profile system
+// console.log(user.getSummary());
+// user.addFriend("Youngji", "active");
+// user.toggleStatus();
+// console.log(`\nAfter updates:`);
+// console.log(user.getSummary());
 
 ////////////////////////////////////
-// objects - creation with object literal syntax
-console.log("=== OBJECTS ===");
+// selecting dom elements
 
-// object literal syntax - curly braces create objects
-const minhoObject = {
-    firstName: "Minho",
-    lastName: "Choi",
-    age: 2025 - 1991,
-    job: "singer",
-    friends: ["Onew", "Jonghyun", "Key", "Taemin"],
-};
-console.log(minhoObject);
+// querySelector - works with any css selector
+// const message = document.querySelector(".message");
+// // gets us the entire element object with all its properties
+// const button = document.querySelector("#btn");
+// console.log(button);
 
-// property access methods
+// const heading = document.querySelector("h1");
+// console.log(message);
 
-// dot notation - clean and readable and most common
-console.log(minhoObject.firstName);
-console.log(minhoObject.lastName);
-console.log(minhoObject.age);
+// const input = document.querySelector(".guess");
+// console.log(heading);
 
-// bracket notation - uses strings and more flexible
-console.log(minhoObject["firstName"]);
-console.log(minhoObject["job"]);
-console.log(minhoObject["friends"]);
+// // query selector returns the first matching element
+// console.log(message.textContent);
+// console.log(button.id);
+// console.log(heading.tagName);
+// console.log(heading.textContent);
 
-// advantage of bracket notation - can compute property names
-const nameKey = "Name";
-console.log(minhoObject["first" + nameKey]);
-console.log(minhoObject["last" + nameKey]);
+// // getElementById 
+// const buttonById = document.getElementById("btn");
+// console.log(buttonById);
+// console.log(buttonById === button); // same element, different method
 
-// modifying existing properties
-minhoObject.job = "actor";
-minhoObject["age"] = 33;
-console.log(minhoObject);
-
-// adding new properties
-minhoObject.location = "South Korea";
-minhoObject["twitter"] = "choiminho_1209";
-minhoObject.hasDriverLicense = true;
-console.log(minhoObject);
-
-// when to use bracket notation
-const property = "job";
-console.log(minhoObject[property]);
-
-// 1. property name is a variable
-// 2. property name has spaces or special characters
-// 3. property name is computed/dynamic
-// otherwise, use dot notation
-
-// object vs arrays decision making
-
-// arrays
-const listOfYears = [1991, 1988, 2005, 2025];
-const shoppingList = ["takoyaki", "waffles", "milktea", "bread"];
-const testScores = [85, 92, 78, 96];
-
-// objects
-const person = {
-    name: "Minho",
-    age: 34,
-    occupation: "singer",
-}
-
-const car = {
-    brand: "Mitsubishi",
-    model: "Mirage",
-    year: 2020,
-    color: "silver"
-};
-
-// objects can contain arrays, arrays can contain objects
-const student = {
-    name: "Seungyeon",
-    grades: [85, 92, 78],
-    address: {
-        street: "205 Gangnam St.",
-        city: "Seoul",
-    },
-};
-console.log(student.grades[0]);
-console.log(student.address.city);
+// // querySelectorAll - multiple elements
+// const allParagraphs = document.querySelectorAll("p");
+// console.log(allParagraphs);
+// console.log(allParagraphs[0]);
+// console.log(allParagraphs.length);
 
 ////////////////////////////////////
-// object methods
+// modifying element content 
 
-const minho = {
-    firstName: "Minho",
-    lastName: "Choi",
-    birthYear: 1991,
-    job: "singer",
-    friends: ["Onew", "Jonghyun", "Key", "Taemin"],
-    hasDriverLicense: true,
+const message = document.querySelector(".message");
 
-// method - function iside object
-    calcAge: function(birthYear) {
-        return 2025 - birthYear;
-    },
-};
+// textContent - gets/sets just the text, no HTML
+console.log(message.textContent); // "Start interacting!"
+message.textContent = "Hello from JavaScript!";
+console.log(message.textContent); // "Start interacting!"
 
-console.log(minho.calcAge(1991));
-console.log(minho.calcAge(minho.birthYear));
+// innerHTML - includes HTML tags (more powerful but be careful)
+message.innerHTML = "<strong>Bold text from JS!</strong>";
 
-// this keyword
-const minhoImproved = {
-    firstName: "Minho",
-    lastName: "Choi",
-    birthYear: 1991,
-    job: "singer",
-    friends: ["Onew", "Jonghyun", "Key", "Taemin"],
-    hasDriverLicense: true,
+// innerText - respects styling (what user actually sees)
+console.log(message.innerText);
 
-    calcAge: function() {
-        console.log(this);
-        return 2025 - this.birthYear;
-    },
-};
+// input element values (use .value, not textContent)
+const input = document.querySelector(".guess");
 
-console.log(minhoImproved.calcAge());
+console.log(input.value);
+input.value = "Default text";
+input.placeholder = "Type here...";
 
-// advanced storing calculated values in objects
-const minhoAdvanced = {
-    firstName: "Minho",
-    lastName: "Choi",
-    birthYear: 1991,
-    job: "singer",
-    friends: ["Onew", "Jonghyun", "Key", "Taemin"],
-    hasDriverLicense: true,
+// dynamic style changes
 
-    calcAge: function() {
-        this.age = 2025 - this.birthYear;
-        return this.age;
-    },
+//changing element styles with the style property
+const heading = document.querySelector("h1");
 
-    getSummary: function() {
-        return `${this.firstName} is a ${this.calcAge()}-year old
-    ${this.job}, and he has ${this.hasDriverLicense ? "a" : "no"} driver's license.`;
-    },
-};
+heading.style.color = "mediumseagreen";
+heading.style.backgroundColor = "lightgray";
+heading.style.fontSize = "3rem";
+heading.style.padding = "20px";
+heading.style.borderRadius = "10px";
 
-console.log(minhoAdvanced.calcAge());
-console.log(minhoAdvanced.age);
-console.log(minhoAdvanced.getSummary());
+const button = document.querySelector("#btn");
+button.style.padding = "5px";
+button.style.borderRadius = "5px";
+button.style.backgroundColor = "mediumseagreen";
 
-// complex object with multiple methods (show real world pattern)
-const bankAccount = {
-    owner: "Seungyeon Han",
-    movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
-    interestRate: 1.2,
-    pin: 1111,
-
-    // method to calculate balance
-    calcBalance: function() {
-    this.balance = this.movements.reduce((acc, mov) => acc + mov, 0);
-    return this.balance;
-    }, 
-
-    // method to add movement
-    deposit: function(amount) {
-    this.movements.push(amount);
-    this.calcBalance();
-    },
-
-    withdraw: function(amount) {
-    this.movements.push(-amount);
-    this.calcBalance();
-    },
-
-    // method for account summary
-    getStatement: function() {
-        return `${this.owner}'s account balance: ${this.calcBalance()}`;
-    },
-};
-
-console.log(bankAccount.getStatement());
-bankAccount.deposit(500);
-console.log(bankAccount.getStatement());
+const inputText = document.querySelector("input")
+inputText.style.padding = "5px";
+inputText.style.borderRadius = "5px";
+inputText.style.backgroundColor = "lightgray";
 
 ////////////////////////////////////
-// coding challenge #3 - user profile system
+// event listeners - user interaction
 
-const user = {
-    firstName: "Seungyeon",
-    lastName: "Han",
-    birthYear: 1988,
-    location: "South Korea",
-    interests: ["dogs", "singing", "photography"],
-    friends: [
-        {name: "Gyuri", status: "active"},
-        {name: "Hara", status: "inactive"},
-        {name: "Jiyoung", status: "active"},
-        {name: "Nicole", status: "active"},
-    ],
-    isActive: true,
+button.addEventListener("click", function() {
+    console.log("Button was clicked!");
+    message.textContent = "You clicked the button!";
+    message.style.color = "mediumseagreen";
+});
 
-    // calculate age method
-    calcAge: function () {
-        this.age = new Date().getFullYear() - this.birthYear;
-        return this.age;
-    },
+// event listener with state management
+let clickCount = 0;
+button.addEventListener("click", function() {
+    clickCount++
+    button.textContent = `Clicked ${clickCount} times`;
+    button.style.backgroundColor = `hsl(${clickCount * 30}, 70%, 50%)`;
+});
 
-    // add friend method
-    addFriend: function (name, status = "active") {
-        this.friends.push({name, status: status});
-        return this.friends.length;
-    },
+// input events fire every time user types
+const display = document.querySelector("message");
+input.addEventListener('input', function() {
+    const userText = input.value;
+    message.textContent = `You typed: ${userText}`;
+    message.style.fontSize = `${userText.length + 10}px`;
+})
 
-    // get active friends count
-    getActiveFriends: function () {
-        const activeFriends = this.friends.filter(friend => friend.status === "active").length;
-        return activeFriends;
-    },
+// keyboard events - responding to specific keys
+input.addEventListener("keydown", function (event) {
+    console.log(`Key pressed: ${event.key}`);
 
-    // toggle active status
-    toggleStatus: function () {
-        this.isActive = !this.isActive;
-        return this.isActive;
-    },
-
-    // generate profile summary
-    getSummary: function () {
-        const age = this.calcAge();
-        const activeFriends = this.getActiveFriends();
-        const status = this.isActive ? "active" : "away";
-
-        return `${this.firstName} ${this.lastName} (${age}) from ${this.location}
-        Currently ${status}
-        ${activeFriends} active friends out of ${this.friends.length} total
-        Interests: ${this.interests.join(", ")}
-        fateflysy | 한승연 Vlog | INFJ`;
-
+    if (event.key === "Enter") {
+        message.textContent = `You pressed Enter! Text was ${input.value}`;
+        input.value = ""; // clear input
     }
-};
+});
 
-// test your user profile system
-console.log(user.getSummary());
-user.addFriend("Youngji", "active");
-user.toggleStatus();
-console.log(`\nAfter updates:`);
-console.log(user.getSummary());
+// global keyword events
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        // reset everything
+        message.textContent = "Reset with Escape key!";
+        input.value = "";
+        clickCount = 0;
+        button.textContent = "Click Me!";
+    }
+});
