@@ -3,8 +3,9 @@ body {
   max-width: 600px;
   margin: 50px auto;
   text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #aeeeb7;
+  background: radial-gradient(circle,rgba(174, 238, 183, 1) 0%, rgba(213, 174, 238, 1) 90%);
+  color: #384A61;
   min-height: 100vh;
   padding: 20px;
 }
@@ -30,7 +31,7 @@ body {
 }
 
 button {
-  background: #4caf50;
+  background: rgb(185, 115, 145);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -41,7 +42,7 @@ button {
 }
 
 button:hover {
-  background: #45a049;
+  background: #AA557A;
   transform: translateY(-2px);
 }
 
@@ -63,7 +64,7 @@ input {
 }
 
 .player.winner {
-  background: linear-gradient(135deg, #4caf50, #45a049);
+  background: linear-gradient(135deg, #D0E7D1, #92C897);
   transform: scale(1.05);
 }
 
