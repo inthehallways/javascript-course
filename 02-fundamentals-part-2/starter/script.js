@@ -553,6 +553,10 @@
 // console.log(user.getSummary());
 
 ////////////////////////////////////
+
+// JavaScript Fundamentals Part 2 - Hour 4
+
+////////////////////////////////////
 // selecting dom elements
 
 // querySelector - works with any css selector
@@ -587,89 +591,191 @@
 ////////////////////////////////////
 // modifying element content 
 
-const message = document.querySelector(".message");
+// const message = document.querySelector(".message");
 
-// textContent - gets/sets just the text, no HTML
-console.log(message.textContent); // "Start interacting!"
-message.textContent = "Hello from JavaScript!";
-console.log(message.textContent); // "Start interacting!"
+// // textContent - gets/sets just the text, no HTML
+// console.log(message.textContent); // "Start interacting!"
+// message.textContent = "Hello from JavaScript!";
+// console.log(message.textContent); // "Start interacting!"
 
-// innerHTML - includes HTML tags (more powerful but be careful)
-message.innerHTML = "<strong>Bold text from JS!</strong>";
+// // innerHTML - includes HTML tags (more powerful but be careful)
+// message.innerHTML = "<strong>Bold text from JS!</strong>";
 
-// innerText - respects styling (what user actually sees)
-console.log(message.innerText);
+// // innerText - respects styling (what user actually sees)
+// console.log(message.innerText);
 
-// input element values (use .value, not textContent)
-const input = document.querySelector(".guess");
+// // input element values (use .value, not textContent)
+// const input = document.querySelector(".guess");
 
-console.log(input.value);
-input.value = "Default text";
-input.placeholder = "Type here...";
+// console.log(input.value);
+// input.value = "Default text";
+// input.placeholder = "Type here...";
 
-// dynamic style changes
+// // dynamic style changes
 
-//changing element styles with the style property
-const heading = document.querySelector("h1");
+// //changing element styles with the style property
+// const heading = document.querySelector("h1");
 
-heading.style.color = "mediumseagreen";
-heading.style.backgroundColor = "lightgray";
-heading.style.fontSize = "3rem";
-heading.style.padding = "20px";
-heading.style.borderRadius = "10px";
+// heading.style.color = "mediumseagreen";
+// heading.style.backgroundColor = "lightgray";
+// heading.style.fontSize = "3rem";
+// heading.style.padding = "20px";
+// heading.style.borderRadius = "10px";
 
-const button = document.querySelector("#btn");
-button.style.padding = "5px";
-button.style.borderRadius = "5px";
-button.style.backgroundColor = "mediumseagreen";
+// const button = document.querySelector("#btn");
+// button.style.padding = "5px";
+// button.style.borderRadius = "5px";
+// button.style.backgroundColor = "mediumseagreen";
 
-const inputText = document.querySelector("input")
-inputText.style.padding = "5px";
-inputText.style.borderRadius = "5px";
-inputText.style.backgroundColor = "lightgray";
+// const inputText = document.querySelector("input")
+// inputText.style.padding = "5px";
+// inputText.style.borderRadius = "5px";
+// inputText.style.backgroundColor = "lightgray";
 
-////////////////////////////////////
-// event listeners - user interaction
+// ////////////////////////////////////
+// // event listeners - user interaction
 
-button.addEventListener("click", function() {
-    console.log("Button was clicked!");
-    message.textContent = "You clicked the button!";
-    message.style.color = "mediumseagreen";
-});
+// button.addEventListener("click", function() {
+//     console.log("Button was clicked!");
+//     message.textContent = "You clicked the button!";
+//     message.style.color = "mediumseagreen";
+// });
 
-// event listener with state management
-let clickCount = 0;
-button.addEventListener("click", function() {
-    clickCount++
-    button.textContent = `Clicked ${clickCount} times`;
-    button.style.backgroundColor = `hsl(${clickCount * 30}, 70%, 50%)`;
-});
+// // event listener with state management
+// let clickCount = 0;
+// button.addEventListener("click", function() {
+//     clickCount++
+//     button.textContent = `Clicked ${clickCount} times`;
+//     button.style.backgroundColor = `hsl(${clickCount * 30}, 70%, 50%)`;
+// });
 
-// input events fire every time user types
-const display = document.querySelector("message");
-input.addEventListener('input', function() {
-    const userText = input.value;
-    message.textContent = `You typed: ${userText}`;
-    message.style.fontSize = `${userText.length + 10}px`;
-})
+// // input events fire every time user types
+// const display = document.querySelector("message");
+// input.addEventListener('input', function() {
+//     const userText = input.value;
+//     message.textContent = `You typed: ${userText}`;
+//     message.style.fontSize = `${userText.length + 10}px`;
+// })
 
-// keyboard events - responding to specific keys
-input.addEventListener("keydown", function (event) {
-    console.log(`Key pressed: ${event.key}`);
+// // keyboard events - responding to specific keys
+// input.addEventListener("keydown", function (event) {
+//     console.log(`Key pressed: ${event.key}`);
 
-    if (event.key === "Enter") {
-        message.textContent = `You pressed Enter! Text was ${input.value}`;
-        input.value = ""; // clear input
+//     if (event.key === "Enter") {
+//         message.textContent = `You pressed Enter! Text was ${input.value}`;
+//         input.value = ""; // clear input
+//     }
+// });
+
+// // global keyword events
+// document.addEventListener("keydown", function (event) {
+//     if (event.key === "Escape") {
+//         // reset everything
+//         message.textContent = "Reset with Escape key!";
+//         input.value = "";
+//         clickCount = 0;
+//         button.textContent = "Click Me!";
+//     }
+// });
+
+// game state (objects & arrays)
+const gameState = {
+    scores: [0,0],
+    winningScore: 5,
+    gameActive: true,
+
+    resetScores: function () {
+        this.scores[0] = 0;  
+        this.scores[1] = 0;  
+        this.gameActive = true;
+    },
+};
+
+// dom elements
+const scoreElements = [
+    document.getElementById("score-1"),
+    document.getElementById("score-2"),
+];
+
+const addBtn = document.querySelectorAll(".btn-add");
+const resetBtn = document.getElementById("btn-reset");
+const winningScoreInput = document.getElementById("winning-score");
+
+const statusElement = document.querySelector(".status .target");
+const winnerElement = document.querySelector(".winner");
+const winnerNameElement = document.querySelector(".winner-name");
+const playerElement = document.querySelectorAll(".player");
+
+// functions
+function updateDisplay() {
+    scoreElements[0].textContent = gameState.scores[0];
+    scoreElements[1].textContent = gameState.scores[1];
+    statusElement.textContent = gameState.winningScore;
+}
+
+// add points to a player
+function addPoint(player) {
+    if (!gameState.gameActive) return;
+
+    gameState.scores[player -1] += 1;
+    updateDisplay();
+    checkWinner();
+}
+
+// check winner
+function checkWinner() {
+    if (gameState.scores[0] >= gameState.winningScore) {
+        showWinner(1, 2);
+    } else if (gameState.scores[1] >= gameState.winningScore) {
+        showWinner(2, 1);
     }
+}
+
+// show winner celebration
+function showWinner(winner, loser) {
+    gameState.gameActive = false;
+    winnerNameElement.textContent = `Player ${winner}`;
+    winnerElement.classList.remove("hidden");
+
+    playerElement[winner - 1].classList.add("winner");
+    playerElement[loser - 1].classList.add("loser");
+}
+
+// reset everything
+function resetGame() {
+    gameState.resetScores();
+    winnerElement.classList.add("hidden");
+
+    // remove styling classes
+    playerElement.forEach((p) => p.classList.remove("winner", "loser"));
+
+    updateDisplay();
+}
+
+// event listeners
+
+// add point buttons
+addBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        const player = parseInt(btn.dataset.player);
+        addPoint(player);
+    });
 });
 
-// global keyword events
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
-        // reset everything
-        message.textContent = "Reset with Escape key!";
-        input.value = "";
-        clickCount = 0;
-        button.textContent = "Click Me!";
-    }
+// reset button
+resetBtn.addEventListener("click", resetGame);
+
+// winning score input
+winningScoreInput.addEventListener("change", () => {
+    gameState.winningScore = parseInt(winningScoreInput.value);
+    resetGame(); // reset game whenever target changes
 });
+
+// keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+      if (e.key === "1") addPoint(1);
+  if (e.key === "2") addPoint(2);
+  if (e.key.toLowerCase() === "r") resetGame();
+});
+
+updateDisplay();
