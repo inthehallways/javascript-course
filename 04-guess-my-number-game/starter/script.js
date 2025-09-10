@@ -55,6 +55,20 @@ document.querySelector('.check').addEventListener('click', function () {
     const guess = Number(document.querySelector('.guess').value);
     console.log(`Player guessed:`, guess);
 
+    // input validation - check for valid input
+
+    // 1) out of range
+    if (guess < 1 || guess > 20) {
+        document.querySelector('.message').textContent = 'Please input a number between 1 to 20.';
+        return;
+    }
+
+    // 2) missing input
+    if (!guess) {
+        document.querySelector('.message').textContent = 'Please input a number!';
+        return;
+    }
+
     // basic game logic which checks if guess is correct
     if (guess === secretNumber) {
         console.log(`Your guess is correct!`);
@@ -72,6 +86,14 @@ document.querySelector('.check').addEventListener('click', function () {
         document.querySelector(`.message`).textContent = ` 🎉 You won!`;
         document.querySelector(`.guess`).disabled = true;
         document.querySelector(`.check`).disabled = true;
+
+        // visual feedback - change styles based on game state
+        // win: set background to green
+        document.body.style.backgroundColor = 'mediumseagreen';
+
+        //final polish - professional finishing touches
+        document.querySelector('.message').textContent = '🎉 Game Over!';
+        document.querySelector('.guess').value = '';
     } else if (guess > secretNumber) {
         console.log(`Too high!`);
         document.querySelector(`.message`).textContent = `📈 Too high!`;
@@ -82,6 +104,14 @@ document.querySelector('.check').addEventListener('click', function () {
             document.querySelector(`.number`).textContent = secretNumber;
             document.querySelector(`.guess`).disabled = true;
             document.querySelector(`.check`).disabled = true;
+
+            // visual feedback - change styles based on game state
+            // lose: set background to red
+            document.body.style.backgroundColor = 'tomato';
+
+            //final polish - professional finishing touches
+            document.querySelector('.message').textContent = '💀 Game Over!';
+            document.querySelector('.guess').value = '';
         }
     } else if (guess < secretNumber) {
         console.log(`Too low!`);
@@ -92,6 +122,14 @@ document.querySelector('.check').addEventListener('click', function () {
             document.querySelector(`.number`).textContent = secretNumber;
             document.querySelector(`.guess`).disabled = true;
             document.querySelector(`.check`).disabled = true;
+            
+            // visual feedback - change styles based on game state
+            // lose: set background to red
+            document.body.style.backgroundColor = 'tomato';
+            
+            //final polish - professional finishing touches
+            document.querySelector('.message').textContent = '💀 Game Over!';
+            document.querySelector('.guess').value = '';
         }
     }
 
@@ -117,4 +155,6 @@ document.querySelector('.again').addEventListener('click', function () {
     // re-enable input and button
     document.querySelector('.guess').disabled = false;
     document.querySelector('.check').disabled = false;
+
+    document.body.style.backgroundColor = '';
 });
