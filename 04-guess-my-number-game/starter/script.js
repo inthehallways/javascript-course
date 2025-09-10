@@ -46,6 +46,7 @@ console.log('Game state initialized!');
 
 ////////////////////////////////////
 // event listeners - making buttons interactive
+// score tracking - reduce score for wrong guesses
 
 document.querySelector('.check').addEventListener('click', function () {
     // once button is clicked, do this below
@@ -59,11 +60,61 @@ document.querySelector('.check').addEventListener('click', function () {
         console.log(`Your guess is correct!`);
         document.querySelector(`.message`).textContent = `🎉 Correct Number!`;
         document.querySelector(`.number`).textContent = secretNumber;
+        
+        // check if this is a new highscore 
+        if (score > highscore) {
+            highscore = score;
+            document.querySelector(`.highscore`).textContent = highscore;
+        }
+
+        // win condition - detect when player wins
+
+        document.querySelector(`.message`).textContent = ` 🎉 You won!`;
+        document.querySelector(`.guess`).disabled = true;
+        document.querySelector(`.check`).disabled = true;
     } else if (guess > secretNumber) {
         console.log(`Too high!`);
         document.querySelector(`.message`).textContent = `📈 Too high!`;
+        score--;
+        document.querySelector(`.score`).textContent = score;
+        if (score < 1) {
+            document.querySelector(`.message`).textContent = `💥 You have lost. Please try again.`
+            document.querySelector(`.number`).textContent = secretNumber;
+            document.querySelector(`.guess`).disabled = true;
+            document.querySelector(`.check`).disabled = true;
+        }
     } else if (guess < secretNumber) {
         console.log(`Too low!`);
         document.querySelector(`.message`).textContent = `📉 Too low!`;
+        score--;
+        if (score < 1) {
+            document.querySelector(`.message`).textContent = `💥 You have lost. Please try again.`
+            document.querySelector(`.number`).textContent = secretNumber;
+            document.querySelector(`.guess`).disabled = true;
+            document.querySelector(`.check`).disabled = true;
+        }
     }
+
+    // update score display whenever there is a wrong guess
+    document.querySelector('.score').textContent = score;
+});
+
+////////////////////////////////////
+// game restart
+
+document.querySelector('.again').addEventListener('click', function () {
+    // reset game state
+    score = 20;
+    secretNumber = Math.trunc(Math.random() * 20) + 1;
+    console.log('New Secret number:', secretNumber);
+
+    // reset display
+    document.querySelector('.message').textContent = 'Start guessing...';
+    document.querySelector('.number').textContent = '?';
+    document.querySelector('.score').textContent = score;
+    document.querySelector('.guess').value = '';
+
+    // re-enable input and button
+    document.querySelector('.guess').disabled = false;
+    document.querySelector('.check').disabled = false;
 });
