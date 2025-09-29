@@ -37,15 +37,54 @@ const openModal = function() {
 
     // remove hidden class from overlay to show background
     overlayEl.classList.remove('hidden');
+
+    modalEl.focus();
+    lastFocusedButton = document.activeElement;
 }
+
+let lastFocusedButton = null;
 
 // close actions
 const closeModal = function () {
     modalEl.classList.add('hidden');
     overlayEl.classList.add('hidden');
+
+    if (lastFocusedButton) {
+        lastFocusedButton.focus();
+    }
 }
 
 // event listeners
 btnsOpenModalEl.forEach(btn => btn.addEventListener('click', openModal));
 btnCloseModalEl.addEventListener('click', closeModal);
 overlayEl.addEventListener('click', closeModal);
+
+// modal development hour 2 - keyboard events & advanced ux
+
+console.log('=== MODAL DEVELOPMENT: KEYBOARD EVENTS & ADVANCED UX ===');
+
+/*
+What We're Adding Today:
+- ESC key functionality to close the modal
+- Focus management for keyboard users
+- ARIA attributes for screen reader accessibility
+- Professional UX patterns
+
+Key Concepts:
+- Global keyboard event listeners
+- Event object properties (e.key, e.code)
+- Visibility guards to prevent unnecessary operations
+- Focus management and accessibility
+*/
+
+// keyboard events
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !modalEl.classList.contains('hidden')) {
+        closeModal();
+    }
+})
+
+// aria attributes for accessibility
+modalEl.setAttribute('role', 'dialog');
+modalEl.setAttribute('aria-modal', 'true');
+btnCloseModalEl.setAttribute('aria-label', 'Close-modal');
