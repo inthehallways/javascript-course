@@ -81,3 +81,91 @@ const addArrow = (a, b) => a + b;
 // temporal dead zone (TDZ) - period between when a let or const variable is hoisted and when it's initialized
 const apiUrl = 'https://example.com';
 console.log(apiUrl); // if this was declared first before const, it would return an error
+
+// behind the scenes development hour 2 - this keyword & arrow functions
+
+const person = {
+    name: 'Hyewon',
+    greet: function() {
+        console.log(`Hello, I am ${this.name}`);
+    },
+};
+
+person.greet();
+
+// borrowing method or greet function
+const anotherPerson = { name: 'Daniela' };
+anotherPerson.greet = person.greet;
+anotherPerson.greet();
+
+// detached function
+const greetFunction = person.greet;
+// greetFunction(); // would return Hello, I am undefined or an error
+
+// arrow functions
+const obj = {
+    name: 'Object',
+    regularMethod: function() {
+        console.log('Regular:', this.name);
+    },
+
+    arrowMethod: () => {
+        console.log('Arrow:', this.name);
+    },
+};
+
+obj.regularMethod(); // regular: Object
+obj.arrowMethod(); // arrow: undefined
+
+// arrow functions are used when you need a very quick function call
+
+// common real-world example: timer with setTimeout
+const timer = {
+    name: 'Timer',
+
+    // old approach with self = this
+    start: function() {
+        console.log(`${this.name} starting...`);
+        const self = this; // in the modern approach, this isn't needed. it fixes this problem
+
+        setTimeout(function() {
+            console.log(`${self.name} finished`);
+        }, 1000);
+    },
+
+    // modern approach with arrow function
+    startModern: function() {
+        console.log(`${this.name} starting modern...`);
+
+        setTimeout(() => {
+            console.log(`${this.name} finished modern`);
+        }, 1500);
+    },
+};
+
+timer.start();
+timer.startModern();
+
+// user arrow functions for callbacks where you want to preserve the outer this
+
+// arguments keywords & advanced scenarios
+const functionTypes = {
+    regularFunction: function() {
+        console.log('Arguments length:', arguments.length);
+        console.log('First argument:', arguments[0]);
+    },
+
+    arrowFunction: () => {
+        // console.log(arguments); // error because arguments is not defined
+        console.log('Arrow function called');
+    },
+
+    modernFunction: (...args) => {
+        console.log('Args length:', args.length);
+        console.log('First arg:', args[0]);
+    },
+};
+
+functionTypes.regularFunction('hello', 'world');
+functionTypes.arrowFunction('test'); 
+functionTypes.modernFunction('modern', 'approach');
