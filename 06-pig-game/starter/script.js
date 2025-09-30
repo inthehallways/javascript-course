@@ -42,6 +42,7 @@ const current1El = document.getElementById('current--1');
 const diceEl = document.querySelector('.dice');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
+const btnNew = document.querySelector('.btn--new');
 
 // game initialization function
 const init = function () {
@@ -57,6 +58,12 @@ const init = function () {
     current0El.textContent = 0;
     current1El.textContent = 0;
     diceEl.classList.add('hidden');
+
+    player0El.classList.remove('player--winner');
+    player1El.classList.remove('player--winner');
+
+    player0El.classList.add('player--active');
+    player1El.classList.remove('player--active');
 };
 
 init();
@@ -98,7 +105,20 @@ btnHold.addEventListener('click', function () {
         // update score display
         document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
 
-        // switch to next player
+        if (scores[activePlayer] >= 100) {
+            // player wins
+            playing = false;
+            diceEl.classList.add('hidden'); 
+
+            //remove active class from winner 
+        document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
+        document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
+        } else {
+        // switch to the other player
         switchPlayer();
+        } 
     }
 });
+
+// new game functionality
+btnNew.addEventListener('click', init);
