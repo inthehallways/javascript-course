@@ -84,6 +84,8 @@ console.log(apiUrl); // if this was declared first before const, it would return
 
 // behind the scenes development hour 2 - this keyword & arrow functions
 
+console.log('=== BEHIND THE SCENES: THIS KEYWORD & ARROW FUNCTIONS ===');
+
 const person = {
     name: 'Hyewon',
     greet: function() {
@@ -169,3 +171,66 @@ const functionTypes = {
 functionTypes.regularFunction('hello', 'world');
 functionTypes.arrowFunction('test'); 
 functionTypes.modernFunction('modern', 'approach');
+
+// behind the scenes development hour 3 - primitives vs objects, copying & strict mode
+
+console.log('=== BEHIND THE SCENES: PRIMITIVES VS OBJECTS, COPYING & STRICT MODE ===');
+
+// how primitive types work
+
+let age = 20;
+let oldAge = age; // independent copy
+
+age = 21;
+console.log('age', age);
+console.log('oldAge', oldAge);
+
+// objects in heap
+const me = {name: 'Aisle', age: 20,};
+const friend = me; // this is a shared reference
+
+friend.name = 'Chaye';
+friend.age = 20;
+
+console.log('me:', me);
+console.log('friend:', friend);
+
+// shallow copy vs deep copy 
+const original = {
+    name: 'Minho',
+    age: 33,
+    hobbies: ['running', 'singing'],
+};
+
+// spread operator shallow copy
+const shallowCopy = { ...original };
+shallowCopy.name = 'Seungyeon';
+
+console.log('original name:', original.name);
+console.log('copy name:', shallowCopy.name);
+
+shallowCopy.hobbies.push('walking'); // nested objects are still shared because it is in the same array
+
+console.log(original.hobbies);
+console.log(shallowCopy.hobbies);
+
+// use shallow copying for objects with only primitive values (strings, numbers, booleans)
+
+// deep copy
+const deepOriginal = {
+    name: 'Maraiah',
+    age: 24,
+    // nested object
+    address: { city: 'Cebu', country: 'Philippines'},
+    //nested array
+    hobbies: ['traveling', 'running'],
+};
+
+// modern deep copy with structuredClone
+const deepCopy = structuredClone(deepOriginal);
+deepCopy.address.city = 'Taguig';
+deepCopy.hobbies.push('cooking');
+deepCopy.name = 'Queen';
+
+console.log(deepOriginal);
+console.log(deepCopy);
