@@ -57,9 +57,9 @@ console.log('Click count:', testWorkout.clicks);
 class Running extends Workout {
     type = 'running';
     
-    constructor(coords, distance, duration, candence) {
+    constructor(coords, distance, duration, cadence) {
         super(coords, distance, duration);
-        this.cadence = this.cadence;
+        this.cadence = cadence;
         this.calcPace();
         this._setDescription();
     }
@@ -103,7 +103,113 @@ console.log('Cycling speed:', cycling1.speed.toFixed(1), 'km/h');
 console.log('Cycling description:', cycling1.description);
 
 // test inheritance - both have click method from Workout
+console.log('=== INHERITANCE TESTING ===')
 run1.click();
 cycling1.click();
 console.log('Run clicks:', run1.clicks);
 console.log('Cycling clicks:', cycling1.clicks);
+
+console.log('=== TESTING GEOLOCATION API ===');
+
+class App {
+    #map
+    #mapZoomLevel = 13;
+    #mapEvent;
+    #workouts = [];
+
+    constructor() {
+        // get user's position when app starts
+        console.log('App starting...');
+        this._getPosition();
+    }
+
+    _getPosition() {
+        if (navigator.geolocation) {
+            console.log('🔍 Requesting user location...');
+            navigator.geolocation.getCurrentPosition(
+            this._loadMap.bind(this), 
+            this._handleLocationError.bind(this),
+
+            {
+                timeout: 10000,
+                enableHighAccuracy: true,
+                maximumAge: 600000,
+            }
+            );
+        } else {
+            alert('❌ Geolocation is not supported by this browser');
+        }
+    }
+
+    _handleLocationError(error) {
+        console.error('Geolocation error:', error);
+
+        let message = 'Could not get your position. ';
+
+        switch (error.code) {
+        case error.PERMISSION_DENIED:
+            message +=
+            'Location access was denied. Please enable location services and refresh the page.';
+            break;
+        case error.POSITION_UNAVAILABLE:
+            message += 'Location information is unavailable.';
+            break;
+        case error.TIMEOUT:
+            message += 'Location request timed out.';
+            break;
+        default:
+            message += 'An unknown error occurred.';
+            break;
+        }
+
+        alert(`📍 ${message}`);
+    }
+    
+    _loadMap(position) {
+        const {latitude, longitude} = position.coords;
+        console.log(`Loading map at coordinates: ${latitude}, ${longitude}`);
+
+        // create coordinate array
+        const coords = [latitude, longitude];
+
+        // initialize map and center at user's location
+        this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
+
+        // add open street map
+        L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            attribution: 
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(this.#map);
+
+        // add a marker at user's location
+        L.marker(coords).addTo(this.#map).bindPopup('You are here!').openPopup();
+        
+        this.#map.on('click', (mapEvent) => {
+            console.log('Map clicked!', mapEvent);
+            // extract coordinates when clicking a part of the map
+            const { lat, lng } = mapEvent.latlng;
+            console.log(`Map clicked at: ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+
+            // create blue marker
+            L.marker([lat, lng]).addTo(this.#map).bindPopup(`Workout location<br>Lat: ${lat.toFixed(4)}, ${lng.toFixed(4)}`).openPopup();
+        });
+        
+        console.log('Map loaded succesfully!');
+    }
+
+    _showForm(mapE) {
+        this.#mapEvent = mapE;
+        const { lat, lng } = mapE.latlng;
+        console.log(`Map clicked at: ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+
+        L.marker([lat, lng])
+        .addTo(this.#map)
+        .bindPopup(
+            `Workout location<br>Lat: ${lat.toFixed(4)}<br>Lng: ${lng.toFixed(4)}`
+        )
+        .openPopup();
+    }
+}
+
+const app = new App();
+console.log('App working succesfully after Hour 2!');
