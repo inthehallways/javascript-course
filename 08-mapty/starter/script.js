@@ -133,6 +133,7 @@ class App {
     constructor() {
         // get user's position when app starts
         console.log('App starting...');
+        this._getLocalStorage();
         this._getPosition();
 
         // attach event handler for form submission
@@ -140,6 +141,47 @@ class App {
         
         // attach event handler for workout type change
         inputType.addEventListener('change', this._toggleElevationField);
+
+        // click handling for workout list items
+        containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+
+        document.addEventListener('keydown', this._handleKeyDown.bind(this));
+    }
+
+    _handleKeyDown(e) {
+        // close form when esc key is pressed
+        if (e.key === 'Escape' && !form.classList.contains('hidden')) {
+            this._hideForm();
+            console.log('Form closed with escape key!');
+        }
+    }
+
+    _moveToPopup(e) {
+        // find the closest workout element from the clicked target
+        const workoutEl = e.target.closest('.workout');
+
+        if (!workoutEl) return;
+
+        // find the workout object using the data-id attribute
+        const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id);
+
+        // move the map to the workout's coordinates
+        this.#map.setView(workout.coords, this.#mapZoomLevel, {
+            animate: true,
+            pan: {
+                duration: 1,
+            }
+        });
+        console.log(`Navigated to ${workout.type} workout at ${workout.coords}`);
+    }
+
+    _getAppHelpers() {
+        return {
+            showWorkouts: this._showAllWorkouts.bind(this),
+            clearData: this._clearAllData.bind(this),
+            exportData: this._exportWorkouts.bind(this),
+            importData: this._importWorkouts.bind(this),
+        };
     }
 
     _getPosition() {
@@ -206,9 +248,22 @@ class App {
         // handling clicks on map
         this.#map.on('click', this._showForm.bind(this));
 
+        this._renderStoredWorkouts();
+
         console.log('🗺️ Map loaded successfully at user location!');
     }
 
+    _renderStoredWorkouts() {
+        this.#workouts.forEach(workout => {
+            this._renderWorkoutMarker(workout);
+            this._renderWorkout(workout);
+        });
+
+        if(this.#workouts.length > 0) {
+            console.log(`Rendered ${this.#workouts.length} stored workouts`);
+        }
+    }
+    
     _showForm(mapE) {
         this.#mapEvent = mapE;
         form.classList.remove('hidden');
@@ -257,9 +312,24 @@ class App {
 
         console.log(`Creating ${type} workout: `, { distance, duration, lat, lng });
 
+        // enhanced validation with specific error messages
+        const showValidationError = (message) => {
+            alert(`❌ Validation Error: ${message}`);
+            inputDistance.focus();
+        }
+
+        // check for empty inputs
+        if (!distance || !duration) {
+            return showValidationError('Distance and Duration are required!');
+        }
+
         // handle running workout
         if (type === 'running') {
             const cadence = +inputCadence.value;
+
+            if (!cadence) {
+                return showValidationError('Cadence is required for running workouts!');
+            }
 
             // check if data is valid
             if (
@@ -300,10 +370,13 @@ class App {
         // render workout on list
         this._renderWorkout(workout);
 
+        // set local storage
+        this._setLocalStorage();
+
         // hide form + clear input fields
         this._hideForm();
 
-        console.log('Workout creation complete!');
+        console.log('✅ Workout creation complete!');
     }
 
     _renderWorkoutMarker(workout) {
@@ -371,6 +444,86 @@ class App {
                 `${workout.type === 'running' ? '🏃‍♀️' : '🚴‍♀️'} ${workout.description}`
             )
             .openPopup();
+    }
+
+    _setLocalStorage() {
+        localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+        console.log('Workouts saved to local storage');
+    }
+
+    _getLocalStorage() {
+        const data = localStorage.getItem('workouts');
+
+        // check if the data exists before parsing
+        if (!data) return;
+
+        // parse the JSON data back to the javascript objects
+        const storedWorkouts = JSON.parse(data);
+        console.log('Retrieved workouts from local storage', storedWorkouts);
+        
+        this.#workouts = storedWorkouts.map(workoutData => {
+            let workout;
+
+            // recreate running objects with proper inheritance
+            if (workoutData.type === 'running') {
+                workout = new Running(
+                    workoutData.coords, 
+                    workoutData.distance, 
+                    workoutData.duration, 
+                    workoutData.cadence
+                );
+            }
+            // recreate cycling objects with proper inheritance
+            if (workoutData.type === 'cycling') {
+                workout = new Cycling(
+                    workoutData.coords, 
+                    workoutData.distance, 
+                    workoutData.duration, 
+                    workoutData.elevationGain
+                );
+            }
+
+            // restore original date and id to maintain data consistency
+            workout.date = new Date(workoutData.date);
+            workout.id = workoutData.id;
+            workout.clicks = workoutData.click;
+
+            return workout;
+        });
+
+        console.log('Workouts restored as proper objects', this.#workouts);
+    }
+
+    // development helper methods
+    _showAllWorkouts() {
+        console.log('All workouts:', this.#workouts);
+        return this.#workouts;
+    }
+
+    _clearAllData() {
+        if (confirm('⚠️ This will delete all workout data. Are you sure?')) {
+            localStorage.removeItem('workouts');
+            location.reload();
+        }
+    }
+
+    _exportWorkouts() {
+        const dataStr = JSON.stringify(this.#workouts, null, 2);
+        console.log('Workout data (copy this to backup):');
+        console.log(dataStr);
+        return dataStr;
+    }
+
+    _importWorkouts(workoutData) {
+        try {
+            const workouts = JSON.parse(workoutData);
+            localStorage.setItem('workouts', workoutData);
+            location.reload();
+            console.log('✅ Workouts imported successfully');
+        } catch (error) {
+            console.error('❌ Error importing workouts:', error);
+            alert('Invalid workout data format');
+        }
     }
 }
 
